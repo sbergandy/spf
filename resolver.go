@@ -109,8 +109,9 @@ func lookupMX(d string) ([]string, error) {
 	}
 
 	for _, answ := range r.Answer {
-		mx := answ.(*dns.MX)
-		mxs = append(mxs, mx.Mx)
+		if mx, ok := answ.(*dns.MX); ok {
+			mxs = append(mxs, mx.Mx)
+		}
 	}
 
 	return mxs, nil

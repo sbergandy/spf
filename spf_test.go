@@ -27,8 +27,16 @@ func TestParse(t *testing.T) {
 }
 
 func TestCNAME(t *testing.T) {
-	ip := net.ParseIP("123.123.123.123")
-	spf.CheckHost(ip, "teicee.fr", "name@teicee.fr", "")
+	data := []testData{
+		newTestData("123.123.123.123", "teicee.fr", "name@teicee.fr", "", spf.Neutral),
+		newTestData("0.0.0.0", "newsletter.peterhahn.de", "newsletter@newsletter.peterhahn.de", "", spf.Fail),
+	}
+
+	for _, d := range data {
+		if r := spf.CheckHost(d.ip, d.domain, d.sender, d.helo); r != d.result {
+			t.Error("CheckHost", d.ip, d.domain, d.sender, "should", d.result, "returned:", r)
+		}
+	}
 }
 
 type testData struct {
