@@ -1,10 +1,9 @@
 package spf_test
 
 import (
+	"github.com/sbergandy/spf"
 	"net"
 	"testing"
-
-	"github.com/mileusna/spf"
 )
 
 func TestLookup(t *testing.T) {
